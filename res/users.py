@@ -3,6 +3,7 @@
 import requests
 import argparse
 from datetime import datetime, timedelta
+from security import safe_requests
 
 
 def view(
@@ -31,7 +32,7 @@ def view(
 
     while True:
         params["current"] = current
-        response = requests.get(f"{url}/api/users", headers=headers, params=params)
+        response = safe_requests.get(f"{url}/api/users", headers=headers, params=params)
         response_json = response.json()
 
         data = response_json.get("data", [])
