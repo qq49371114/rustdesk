@@ -38,7 +38,7 @@ def view(
 
     while True:
         params["current"] = current
-        response = requests.get(f"{url}/api/devices", headers=headers, params=params)
+        response = requests.get(f"{url}/api/devices", headers=headers, params=params, timeout=60)
         response_json = response.json()
 
         data = response_json.get("data", [])
@@ -75,21 +75,21 @@ def check(response):
 def disable(url, token, guid, id):
     print("Disable", id)
     headers = {"Authorization": f"Bearer {token}"}
-    response = requests.post(f"{url}/api/devices/{guid}/disable", headers=headers)
+    response = requests.post(f"{url}/api/devices/{guid}/disable", headers=headers, timeout=60)
     return check(response)
 
 
 def enable(url, token, guid, id):
     print("Enable", id)
     headers = {"Authorization": f"Bearer {token}"}
-    response = requests.post(f"{url}/api/devices/{guid}/enable", headers=headers)
+    response = requests.post(f"{url}/api/devices/{guid}/enable", headers=headers, timeout=60)
     return check(response)
 
 
 def delete(url, token, guid, id):
     print("Delete", id)
     headers = {"Authorization": f"Bearer {token}"}
-    response = requests.delete(f"{url}/api/devices/{guid}", headers=headers)
+    response = requests.delete(f"{url}/api/devices/{guid}", headers=headers, timeout=60)
     return check(response)
 
 
@@ -101,8 +101,8 @@ def assign(url, token, guid, id, type, value):
     data = {"type": type, "value": value}
     headers = {"Authorization": f"Bearer {token}"}
     response = requests.post(
-        f"{url}/api/devices/{guid}/assign", headers=headers, json=data
-    )
+        f"{url}/api/devices/{guid}/assign", headers=headers, json=data, 
+    timeout=60)
     return check(response)
 
 

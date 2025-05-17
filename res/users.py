@@ -31,7 +31,7 @@ def view(
 
     while True:
         params["current"] = current
-        response = requests.get(f"{url}/api/users", headers=headers, params=params)
+        response = requests.get(f"{url}/api/users", headers=headers, params=params, timeout=60)
         response_json = response.json()
 
         data = response_json.get("data", [])
@@ -59,21 +59,21 @@ def check(response):
 def disable(url, token, guid, name):
     print("Disable", name)
     headers = {"Authorization": f"Bearer {token}"}
-    response = requests.post(f"{url}/api/users/{guid}/disable", headers=headers)
+    response = requests.post(f"{url}/api/users/{guid}/disable", headers=headers, timeout=60)
     return check(response)
 
 
 def enable(url, token, guid, name):
     print("Enable", name)
     headers = {"Authorization": f"Bearer {token}"}
-    response = requests.post(f"{url}/api/users/{guid}/enable", headers=headers)
+    response = requests.post(f"{url}/api/users/{guid}/enable", headers=headers, timeout=60)
     return check(response)
 
 
 def delete(url, token, guid, name):
     print("Delete", name)
     headers = {"Authorization": f"Bearer {token}"}
-    response = requests.delete(f"{url}/api/users/{guid}", headers=headers)
+    response = requests.delete(f"{url}/api/users/{guid}", headers=headers, timeout=60)
     return check(response)
 
 
