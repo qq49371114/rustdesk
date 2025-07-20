@@ -12,6 +12,7 @@ import platform
 from pathlib import Path
 from itertools import chain
 import shutil
+from security import safe_command
 
 g_indent_unit = "\t"
 g_version = ""
@@ -456,8 +457,7 @@ def init_global_vars(dist_dir, app_name, args):
     dist_app = dist_dir.joinpath(app_name + ".exe")
 
     def read_process_output(args):
-        process = subprocess.Popen(
-            f"{dist_app} {args}",
+        process = safe_command.run(subprocess.Popen, f"{dist_app} {args}",
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             shell=True,
