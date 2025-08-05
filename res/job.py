@@ -7,6 +7,7 @@ import argparse
 import logging
 import shutil
 import zipfile
+from security import safe_requests
 
 logging.basicConfig(
     level=logging.INFO,
@@ -57,14 +58,14 @@ def upload_file(task_id, file_path):
 
 
 def get_status(task_id):
-    response = requests.get(
+    response = safe_requests.get(
         f"{BASE_URL}/tasks/{task_id}/status", timeout=TIMEOUT, headers=HEADERS
     )
     return get_json(response)
 
 
 def download_files(task_id, output_dir, fn=None):
-    response = requests.get(
+    response = safe_requests.get(
         f"{BASE_URL}/tasks/{task_id}/files",
         timeout=TIMEOUT,
         headers=HEADERS,
@@ -84,7 +85,7 @@ def download_files(task_id, output_dir, fn=None):
 
 
 def download_one_file(task_id, file_id, output_dir):
-    response = requests.get(
+    response = safe_requests.get(
         f"{BASE_URL}/tasks/{task_id}/files/{file_id}",
         timeout=TIMEOUT,
         headers=HEADERS,
@@ -102,7 +103,7 @@ def download_one_file(task_id, file_id, output_dir):
 
 
 def fetch(tag=None):
-    response = requests.get(
+    response = safe_requests.get(
         f"{BASE_URL}/tasks/fetch_task" + ("?tag=%s" % tag if tag else ""),
         timeout=TIMEOUT,
         headers=HEADERS,
